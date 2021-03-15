@@ -72,12 +72,6 @@ pub struct RenderPass {
 impl RenderPass {
     /// Creates a new render pass to render a egui UI. `output_format` needs to be either `wgpu::TextureFormat::Rgba8UnormSrgb` or `wgpu::TextureFormat::Bgra8UnormSrgb`. Panics if it's not a Srgb format.
     pub fn new(device: &wgpu::Device, output_format: wgpu::TextureFormat) -> Self {
-        if !(output_format == wgpu::TextureFormat::Rgba8UnormSrgb
-            || output_format == wgpu::TextureFormat::Bgra8UnormSrgb)
-        {
-            panic!("Incompatible output_format. Needs to be either Rgba8UnormSrgb or Bgra8UnormSrgb: {:?}", output_format);
-        }
-
         let vs_module = device.create_shader_module(&include_spirv!("shader/egui.vert.spirv"));
         let fs_module = device.create_shader_module(&include_spirv!("shader/egui.frag.spirv"));
 
@@ -436,7 +430,7 @@ impl RenderPass {
     ///
     /// This enables the application to reference
     /// the texture inside an image ui element. This effectively enables off-screen rendering inside
-    /// the egui UI. Texture must have the texture format `TextureFormat::Rgba8UnormSrgb` and 
+    /// the egui UI. Texture must have the texture format `TextureFormat::Rgba8UnormSrgb` and
     /// Texture usage `TextureUsage::SAMPLED`.
     pub fn egui_texture_from_wgpu_texture(
         &mut self,
